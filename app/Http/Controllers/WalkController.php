@@ -8,6 +8,7 @@ use App\Models\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\WalkRequest;
 
 class WalkController extends Controller
 {
@@ -43,7 +44,7 @@ class WalkController extends Controller
         $walk->latitude = 39.91402764039571;
         $walk->longitude = 141.1007601246386;
         $zoom = 15;
-        $categories = Category::all();
+        $categories = Category::all()->sortBy('id');
         return view('walks.create', compact('walk', 'zoom', 'categories'));
     }
 
@@ -53,7 +54,7 @@ class WalkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(WalkRequest $request)
     {
         // create walk
         $walk = new Walk();
@@ -103,7 +104,7 @@ class WalkController extends Controller
             DB::rollback();
             return back()->withInput()->withErrors($e->getMessage());
         }
-        return redirect(route('walks.index'))->with(['flash_message' => 'Complete Create New Walk.']);
+        return redirect()->route('walks.index')->with(['notice' => 'Complete Create New Walk.']);
     }
 
     /**
@@ -126,19 +127,37 @@ class WalkController extends Controller
      */
     public function edit(Walk $walk)
     {
-        return view('walks.edit', compact('walk'));
+        $zoom = 15;
+        $categories = Category::all()->sortBy('id');
+        return view('walks.edit', compact('walk', 'zoom', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\WalkRequest  $request
      * @param  \App\Models\Walk  $walk
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Walk $walk)
+    public function update(WalkRequest $request, Walk $walk)
     {
-        //
+        // set request form data
+        $walk->fill($request->all());
+
+        // begin transaction
+        DB::beginTransaction();
+
+        try {
+            // save walk
+            $walk->save();
+            // commit
+            DB::commit();
+        } catch (\Exception $e) {
+            // rollback
+            DB::rollback();
+            return back()->withInput()->withErrors($e->getMessage());
+        }
+        return redirect()->route('walks.show', $walk)->with(['notice' => 'Complete Edit New Walk.']);
     }
 
     /**
@@ -168,6 +187,6 @@ class WalkController extends Controller
         }
         return redirect()
             ->route('walks.index')
-            ->with(['flash_message' => '削除が完了しました']);
+            ->with(['notice' => 'Complete Delete Walk.']);
     }
 }

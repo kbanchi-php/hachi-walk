@@ -42,7 +42,7 @@
                 <input type="file" name="file[]" class="border-gray-300" multiple="multiple">
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm mb-2" for="image">
+                <label class="block text-gray-700 text-sm mb-2" for="map">
                     Map
                 </label>
                 <input type="hidden" name="latitude" id="latitude" value="{{ old('latitude') }}">
