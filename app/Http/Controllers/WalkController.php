@@ -14,7 +14,7 @@ class WalkController extends Controller
      */
     public function index()
     {
-        //
+        return view('walks.index');
     }
 
     /**
@@ -24,7 +24,7 @@ class WalkController extends Controller
      */
     public function create()
     {
-        //
+        return view('walks.create');
     }
 
     /**
@@ -46,7 +46,7 @@ class WalkController extends Controller
      */
     public function show(Walk $walk)
     {
-        //
+        return view('walks.show', compact('walk'));
     }
 
     /**
@@ -57,7 +57,7 @@ class WalkController extends Controller
      */
     public function edit(Walk $walk)
     {
-        //
+        return view('walks.edit', compact('walk'));
     }
 
     /**
