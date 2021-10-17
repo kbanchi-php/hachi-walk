@@ -175,6 +175,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /**
+         * SNS login
+         */
+        Laravel\Socialite\SocialiteServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
+
     ],
 
     /*
@@ -229,6 +235,11 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        /**
+         * SNS login
+         */
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Socialite' => \SocialiteProviders\Manager\ServiceProvider::class,
     ],
 
 ];

@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Walk::class);
     }
+
+    public function identity_provider()
+    {
+        return $this->hasOne(IdentityProvider::class);
+    }
 }
