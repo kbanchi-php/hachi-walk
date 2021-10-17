@@ -127,6 +127,8 @@ class WalkController extends Controller
      */
     public function edit(Walk $walk)
     {
+        $this->authorize('update', $walk);
+
         $zoom = 15;
         $categories = Category::all()->sortBy('id');
         return view('walks.edit', compact('walk', 'zoom', 'categories'));
@@ -141,6 +143,8 @@ class WalkController extends Controller
      */
     public function update(WalkRequest $request, Walk $walk)
     {
+        $this->authorize('update', $walk);
+
         // set request form data
         $walk->fill($request->all());
 
@@ -168,6 +172,9 @@ class WalkController extends Controller
      */
     public function destroy(Walk $walk)
     {
+
+        $this->authorize('delete', $walk);
+
         $delete_file_paths = $walk->image_paths;
 
         DB::beginTransaction();

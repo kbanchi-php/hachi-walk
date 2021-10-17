@@ -23,10 +23,17 @@ class WalkRequest extends FormRequest
      */
     public function rules()
     {
+
+        $route = $this->route()->getName();
+
         $rule = [
             'title' => 'required|max:50',
             'description' => 'max:2000',
         ];
+
+        if ($route == 'walks.store') {
+            $rule['file'] = 'required';
+        }
 
         return $rule;
     }

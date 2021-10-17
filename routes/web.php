@@ -24,10 +24,6 @@ Route::resource('walks', App\Http\Controllers\WalkController::class)
 Route::resource('walks', App\Http\Controllers\WalkController::class)
     ->only(['index', 'show']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
 require __DIR__ . '/auth.php';
 
 // authから始まるルーティングに認証前にアクセスがあった場合

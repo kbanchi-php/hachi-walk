@@ -5,7 +5,15 @@
         <article class="mb-2">
             <h2 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-1 text-3xl md:text-4xl">
                 {{ $walk->title }}</h2>
-            <img src="{{ $walk->image_url }}" alt="image" class="mb-4">
+            <h2 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-1 text-xl md:text-xl">
+                {{ $walk->category->name }}</h2>
+            <div class="flex flex-wrap -mx-1 lg:-mx-4 mb-4">
+                @foreach ($walk->image_urls as $url)
+                    <article class="w-full px-4 md:w-1/4 text-xl text-gray-800 leading-normal">
+                        <img class="w-full mb-2" src="{{ $url }}" alt="image">
+                    </article>
+                @endforeach
+            </div>
             <p class="text-gray-700 text-base">{!! nl2br(e($walk->description)) !!}</p>
         </article>
         <div id="map" style="height: 70vh"></div>

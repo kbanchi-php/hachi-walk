@@ -13,7 +13,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('walks.create')">
-                        記事を書く
+                        新規投稿
                     </x-nav-link>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                             @auth
                                 <div>{{ Auth::user()->name }}</div>
                             @else
-                                <div>げすと</div>
+                                <div>ゲスト</div>
                             @endauth
 
                             <div class="ml-1">
@@ -44,22 +44,19 @@
                     <x-slot name="content">
                         <!-- Authentication -->
                         @auth
-                            <x-dropdown-link :href="route('walks.create')">
-                                {{ __('記事を書く') }}
-                            </x-dropdown-link>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault(); this.closest('form').submit();">
-                                    {{ __('ろぐあうと') }}
+                                    {{ __('ログアウト') }}
                                 </x-dropdown-link>
                             </form>
                         @else
                             <x-dropdown-link :href="route('register')">
-                                {{ __('さいんあっぷ') }}
+                                {{ __('サインアップ') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('login')">
-                                {{ __('ろぐいん') }}
+                                {{ __('ログイン') }}
                             </x-dropdown-link>
                         @endauth
                     </x-slot>
@@ -96,28 +93,27 @@
                 <div class="mt-3 space-y-1">
                     <!-- Authentication -->
                     <x-responsive-nav-link :href="route('walks.create')">
-                        {{ __('記事を書く') }}
+                        {{ __('新規投稿') }}
                     </x-responsive-nav-link>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                                                                                                    this.closest('form').submit();">
-                            {{ __('ろぐあうと') }}
+                        <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
+                                    this.closest('form').submit();">
+                            {{ __('・ログアウト') }}
                         </x-responsive-nav-link>
                     </form>
                 </div>
             @else
                 <div class="px-4">
-                    <div class="font-medium text-base text-gray-800">げすと</div>
+                    <div class="font-medium text-base text-gray-800">ゲスト</div>
                 </div>
 
                 <div class="mt-3 space-y-1">
                     <x-responsive-nav-link :href="route('register')">
-                        {{ __('さいんあっぷ') }}
+                        {{ __('サインアップ') }}
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('login')">
-                        {{ __('ろぐいん') }}
+                        {{ __('ログイン') }}
                     </x-responsive-nav-link>
                 </div>
             @endauth
