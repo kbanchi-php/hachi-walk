@@ -12,9 +12,20 @@ class WalkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('walks.index');
+        $keyword = $request->keyword;
+        $query = Walk::query();
+        if (!empty($keyword)) {
+            $query->where('title', 'like', '%' . $keyword . '%');
+            $query->orWhere('description', 'like', '%' . $keyword . '%');
+            $query->orWhereHas('category', function ($q) use ($keyword) {
+                $q->where('name', 'like', '%' . $keyword . '%');
+            });
+        }
+        $walks = $query->with('photos')->paginate(4);
+        $walks->appends(compact('keyword'));
+        return view('walks.index', compact('walks'));
     }
 
     /**
