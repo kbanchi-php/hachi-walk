@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Walk;
+use App\Models\Photo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class WalkController extends Controller
 {
@@ -23,7 +27,7 @@ class WalkController extends Controller
                 $q->where('name', 'like', '%' . $keyword . '%');
             });
         }
-        $walks = $query->with('photos')->paginate(4);
+        $walks = $query->with('photos')->paginate(8);
         $walks->appends(compact('keyword'));
         return view('walks.index', compact('walks'));
     }
@@ -35,7 +39,12 @@ class WalkController extends Controller
      */
     public function create()
     {
-        return view('walks.create');
+        $walk = new Walk();
+        $walk->latitude = 39.91402764039571;
+        $walk->longitude = 141.1007601246386;
+        $zoom = 15;
+        $categories = Category::all();
+        return view('walks.create', compact('walk', 'zoom', 'categories'));
     }
 
     /**
@@ -46,7 +55,55 @@ class WalkController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // create walk
+        $walk = new Walk();
+        // set request form data
+        $walk->fill($request->all());
+        // set user id
+        $walk->user_id = auth()->user()->id;
+
+        // get file info and set file name
+        $files = $request->file;
+
+        // begin transaction
+        DB::beginTransaction();
+
+        try {
+            // Article保存
+            $walk->save();
+
+            $paths = [];
+            foreach ($files as $file) {
+                $name = $file->getClientOriginalName();
+                // save files
+                $path = Storage::putFile('walks', $file);
+                if (!$path) {
+                    throw new \Exception("Faild to save image...");
+                }
+                $paths[] = $path;
+                // set photo info
+                $photo = new Photo([
+                    'walk_id' => $walk->id,
+                    'org_name' => $name,
+                    'name' => basename($path)
+                ]);
+                // save photo
+                $photo->save();
+            }
+
+            // commit
+            DB::commit();
+        } catch (\Exception $e) {
+            // rollback
+            foreach ($paths as $path) {
+                if (!empty($path)) {
+                    Storage::delete($path);
+                }
+            }
+            DB::rollback();
+            return back()->withInput()->withErrors($e->getMessage());
+        }
+        return redirect(route('walks.index'))->with(['flash_message' => 'Complete Create New Walk.']);
     }
 
     /**

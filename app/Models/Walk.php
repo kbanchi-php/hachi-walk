@@ -10,6 +10,14 @@ class Walk extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'description',
+        'category_id',
+        'latitude',
+        'longitude',
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
