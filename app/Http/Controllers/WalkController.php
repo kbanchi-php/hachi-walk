@@ -114,7 +114,8 @@ class WalkController extends Controller
      */
     public function show(Walk $walk)
     {
-        return view('walks.show', compact('walk'));
+        $zoom = 15;
+        return view('walks.show', compact('walk', 'zoom'));
     }
 
     /**
@@ -148,6 +149,25 @@ class WalkController extends Controller
      */
     public function destroy(Walk $walk)
     {
-        //
+        $delete_file_paths = $walk->image_paths;
+
+        DB::beginTransaction();
+        try {
+            $walk->delete();
+
+            foreach ($delete_file_paths as $delete_file_path) {
+                if (!Storage::delete($delete_file_path)) {
+                    throw new \Exception('Faild to delete old image...');
+                }
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->withInput()->withErrors($e->getMessage());
+        }
+        return redirect()
+            ->route('walks.index')
+            ->with(['flash_message' => '削除が完了しました']);
     }
 }
