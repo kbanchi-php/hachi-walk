@@ -11,14 +11,20 @@
         <div id="map" style="height: 70vh"></div>
         @auth
             <div class="flex flex-row text-center my-4">
-                <a href="{{ route('walks.edit', $walk) }}"
-                    class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2">編集</a>
-                <form action="{{ route('walks.destroy', $walk) }}" method="post">
-                    @csrf
-                    @method('DELETE')
-                    <input type="submit" value="削除" onclick="if(!confirm('削除しますか？')){return false};"
-                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20">
-                </form>
+                <a href="{{ route('walks.index') }}"
+                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2">戻る</a>
+                @can('update', $walk)
+                    <a href="{{ route('walks.edit', $walk) }}"
+                        class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2">編集</a>
+                @endcan
+                @can('delete', $walk)
+                    <form action="{{ route('walks.destroy', $walk) }}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <input type="submit" value="削除" onclick="if(!confirm('削除しますか？')){return false};"
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20">
+                    </form>
+                @endcan
             </div>
         @endauth
     </div>

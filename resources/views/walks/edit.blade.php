@@ -58,6 +58,10 @@
             </div>
             <input type="submit" value="更新"
                 class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <button type="button" onclick="location.href='{{ route('walks.show', $walk) }}'"
+                class="w-full bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                戻る
+            </button>
         </form>
     </div>
     @include('partial.map')

@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\Walk;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class WalkPolicy
 {
@@ -16,9 +17,9 @@ class WalkPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(?User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -28,9 +29,9 @@ class WalkPolicy
      * @param  \App\Models\Walk  $walk
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Walk $walk)
+    public function view(?User $user, Walk $walk)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +42,7 @@ class WalkPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +54,9 @@ class WalkPolicy
      */
     public function update(User $user, Walk $walk)
     {
-        //
+        return $user->id === $walk->user_id
+            ? Response::allow()
+            : Response::deny('You are not allowed this action.');
     }
 
     /**
@@ -65,7 +68,9 @@ class WalkPolicy
      */
     public function delete(User $user, Walk $walk)
     {
-        //
+        return $user->id === $walk->user_id
+            ? Response::allow()
+            : Response::deny('You are not allowed this action.');
     }
 
     /**
