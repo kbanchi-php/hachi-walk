@@ -33,6 +33,9 @@
 
 ![edit03](./doc/images/edit_03.png)
 
+## Tables
+https://docs.google.com/spreadsheets/d/1f5J8Hd2SsxGJa7kjxhAT6l5qh71VtUGwnJxA2-N8GKQ/edit?usp=sharing
+
 ## Note
 * Laravel Breezeをベースに実装
 * Bootstrapは使わず、Tailwindcssのみで実装(複数のCSSフレームワークを混在させたくなかったため)
