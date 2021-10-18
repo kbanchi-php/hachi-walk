@@ -1,8 +1,9 @@
 <x-app-layout>
     <div class="container lg:w-1/2 md:w-4/5 w-11/12 mx-auto mt-8 px-8 bg-white shadow-md">
         <x-validation-errors :errors="$errors" />
-        <h2 class="text-center text-lg font-bold pt-6 tracking-widest">食事記事編集</h2>
-        <form action="{{ route('walks.update', $walk) }}" method="post" class="rounded pt-3 pb-8 mb-4">
+        <h2 class="text-center text-lg font-bold pt-6 tracking-widest">散歩編集</h2>
+        <form action="{{ route('walks.update', $walk) }}" method="post" enctype="multipart/form-data"
+            class="rounded pt-3 pb-8 mb-4">
             @csrf
             @method('patch')
             <div class="mb-4">
@@ -30,14 +31,14 @@
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm mb-2" for="description">
-                    詳細
+                    説明
                 </label>
                 <textarea name="description" rows="10"
                     class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full py-2 px-3"
                     required>{{ $walk->description }}</textarea>
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm mb-2" for="image">
+                <label class="block text-gray-700 text-sm mb-2">
                     Photo
                 </label>
                 <div class="flex flex-wrap -mx-1 lg:-mx-4 mb-4">
@@ -47,6 +48,10 @@
                         </article>
                     @endforeach
                 </div>
+                <label class="block text-gray-700 text-sm mb-2" for="file">
+                    追加したいPhotoを選択
+                </label>
+                <input type="file" name="file[]" class="border-gray-300" multiple="multiple">
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm mb-2" for="map">

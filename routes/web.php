@@ -13,27 +13,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// routing of root
 Route::get('/', [
     App\Http\Controllers\WalkController::class, 'index'
 ])->name('root');
 
+// routing of walks resource with auth
 Route::resource('walks', App\Http\Controllers\WalkController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])
     ->middleware('auth');
 
+// routing of walks resource without auth
 Route::resource('walks', App\Http\Controllers\WalkController::class)
     ->only(['index', 'show']);
 
 require __DIR__ . '/auth.php';
 
-// authから始まるルーティングに認証前にアクセスがあった場合
+// routing of sns auth
 Route::prefix('auth')->middleware('guest')->group(function () {
-    // auth/githubにアクセスがあった場合はOAuthControllerのredirectToProviderアクションへルーティング
+    // auth/{provider}
     Route::get('/{provider}', [
         App\Http\Controllers\Auth\OAuthController::class, 'redirectToProvider'
     ])->where('provider', 'github|google|line')->name('redirectToProvider');
 
-    // auth/github/callbackにアクセスがあった場合はOAuthControllerのoauthCallbackアクションへルーティング
+    // auth/{provider}/callbak
     Route::get('/{provider}/callback', [
         App\Http\Controllers\Auth\OAuthController::class, 'oauthCallback'
     ])->where('provider', 'github|google|line')->name('oauthCallback');

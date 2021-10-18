@@ -4,9 +4,10 @@
         <x-validation-errors :errors="$errors" />
         <article class="mb-2">
             <h2 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-1 text-3xl md:text-4xl">
-                {{ $walk->title }}</h2>
-            <h2 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-1 text-xl md:text-xl">
-                {{ $walk->category->name }}</h2>
+                {{ $walk->title }} ( {{ $walk->category->name }} )</h2>
+            <h2 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-1 text-sm text-right">
+                {{ $walk->user->name }} さんが <span class="text-red-400 font-bold">{{ $walk->elapsed_time }}</span>
+                前に投稿</h2>
             <div class="flex flex-wrap -mx-1 lg:-mx-4 mb-4">
                 @foreach ($walk->image_urls as $url)
                     <article class="w-full px-4 md:w-1/4 text-xl text-gray-800 leading-normal">
@@ -14,7 +15,7 @@
                     </article>
                 @endforeach
             </div>
-            <p class="text-gray-700 text-base">{!! nl2br(e($walk->description)) !!}</p>
+            <h2 class="text-gray-700 pt-6 pb-1 text-xl">{!! nl2br(e($walk->description)) !!}</h2>
         </article>
         <div id="map" style="height: 70vh"></div>
         @auth

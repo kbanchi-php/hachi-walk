@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
+@import url(https://fonts.googleapis.com/css2?family=Potta+One&display=swap);
 /*!
  * Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
@@ -6122,6 +6123,16 @@ readers do not read off random characters that represent icons */
 .fab {
   font-family: "Font Awesome 5 Brands";
   font-weight: 400;
+}
+
+.bottom-right-50 {
+  bottom: 50px;
+  right: 50px;
+  z-index: 10;
+}
+
+.logo {
+  font-family: "Potta One", cursive;
 }
 /*! tailwindcss v2.2.17 | MIT License | https://tailwindcss.com */
 
