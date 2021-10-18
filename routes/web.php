@@ -34,10 +34,10 @@ Route::prefix('auth')->middleware('guest')->group(function () {
     // auth/{provider}
     Route::get('/{provider}', [
         App\Http\Controllers\Auth\OAuthController::class, 'redirectToProvider'
-    ])->where('provider', 'github|google|line')->name('redirectToProvider');
+    ])->where('provider', 'github|google|line|facebook')->name('redirectToProvider');
 
     // auth/{provider}/callbak
     Route::get('/{provider}/callback', [
         App\Http\Controllers\Auth\OAuthController::class, 'oauthCallback'
-    ])->where('provider', 'github|google|line')->name('oauthCallback');
+    ])->where('provider', 'github|google|line|facebook')->name('oauthCallback');
 });

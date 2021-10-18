@@ -20,6 +20,8 @@ class OAuthController extends Controller
     public function oauthCallback($provider)
     {
 
+        dd(Socialite::with($provider)->user());
+
         try {
             // get socialite user info
             $socialite_user = Socialite::with($provider)->user();
