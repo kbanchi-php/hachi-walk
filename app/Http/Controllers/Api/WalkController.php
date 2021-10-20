@@ -28,11 +28,7 @@ class WalkController extends Controller
     public function store(WalkRequest $request)
     {
         $walk = new Walk();
-        $walk->title = $request->title;
-        $walk->latitude = $request->latitude;
-        $walk->longitude = $request->longitude;
-        $walk->description = $request->description;
-        $walk->category_id = $request->category_id;
+        $walk->fill($request->all());
         $walk->user_id = $request->user_id;
         $walk->save();
         return $walk;
@@ -60,11 +56,7 @@ class WalkController extends Controller
     public function update(WalkRequest $request, $id)
     {
         $walk = Walk::find($id);
-        $walk->title = $request->title;
-        $walk->latitude = $request->latitude;
-        $walk->longitude = $request->longitude;
-        $walk->description = $request->description;
-        $walk->category_id = $request->category_id;
+        $walk->fill($request->all());
         $walk->user_id = $request->user_id;
         $walk->save();
         return $walk;
